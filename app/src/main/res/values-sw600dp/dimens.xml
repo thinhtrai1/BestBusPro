@@ -22,6 +22,7 @@
     <dimen name="home_avatar_size">96dp</dimen>
     <dimen name="home_avatar_size_half">48dp</dimen>
     <dimen name="home_menu_icon_size">48dp</dimen>
+    <dimen name="home_menu_icon_width">84dp</dimen>
     <dimen name="home_item_offer_width">150dp</dimen>
 
     <dimen name="tour_list_item_header_icon">36dp</dimen>

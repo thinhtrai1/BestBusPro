@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Best Bus</string>
+    <string name="app_name">BestBusPro</string>
     <string name="please_wait">Please wait…</string>
     <string name="login">Login</string>
     <string name="email">Email</string>
@@ -20,7 +20,7 @@
     <string name="logout"><u>Logout</u></string>
     <string name="change_password"><u>Change password</u></string>
     <string name="best_deals">BEST DEALS</string>
-    <string name="discount_on">%1$s discount on</string>
+    <string name="discount_on">%1$s%% discount on</string>
     <string name="departure_to_arrival">Departure to Arrival</string>
     <string name="please_contact_to_admin">Please contact to admin for more information.\nBuy one and get one for free if you are a <b>WitBus</b> member.</string>
     <string name="up_to">UP TO</string>

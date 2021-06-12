@@ -2,6 +2,7 @@ package com.app.bestbus.utils
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.*
 import androidx.databinding.BindingAdapter
 import com.app.bestbus.R
@@ -9,10 +10,18 @@ import com.squareup.picasso.Picasso
 
 object BindingAdapter {
     @JvmStatic
-    @BindingAdapter("imageUrl")
-    fun ImageView.loadImage(url: String?) {
+    @BindingAdapter(value = ["imageUrl", "dimens", "isPlaceHolder"], requireAll = false)
+    fun ImageView.loadImage(url: String?, dimens: Float?, isPlaceHolder: Boolean) {
         if (url != null) {
-            Picasso.get().load(url).placeholder(R.drawable.ic_app).into(this)
+            Picasso.get().load(Constant.BASE_URL + url).apply {
+                if (dimens != null) {
+                    resize(dimens.toInt(), dimens.toInt())
+                }
+                if (isPlaceHolder) {
+                    placeholder(R.drawable.ic_app)
+                }
+                into(this@loadImage)
+            }
         } else {
             setImageResource(R.drawable.ic_app)
         }
@@ -32,5 +41,11 @@ object BindingAdapter {
                 listener.onChanged(s.toString())
             }
         })
+    }
+
+    @JvmStatic
+    @BindingAdapter("isVisible")
+    fun View.setVisible(isVisible: Boolean) {
+        visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

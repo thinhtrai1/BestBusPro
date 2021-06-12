@@ -17,9 +17,9 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideApiClient(): ApiService {
+    fun provideApiService(): ApiService {
         return Retrofit.Builder()
-            .baseUrl(Constant.BASE_URL)
+            .baseUrl(Constant.BASE_URL + "api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)

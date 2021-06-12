@@ -1,415 +1,407 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewContainer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:openDrawer="end">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.app.bestbus.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/viewContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_main"
-        android:orientation="vertical"
-        tools:context=".activities.HomeActivity">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:background="@drawable/bg_home_header"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/title_bar_height"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/imvMenu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/book_tour"
-                    android:src="@drawable/ic_app" />
-
-                <ImageView
-                    android:id="@+id/imvNotification"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginEnd="@dimen/margin_10"
-                    android:layout_weight="1"
-                    android:contentDescription="@null"
-                    android:scaleType="fitEnd"
-                    android:src="@drawable/ic_app" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/viewAnimate1"
-                android:layout_width="@dimen/home_logo_size"
-                android:layout_height="@dimen/home_logo_size"
-                android:layout_marginBottom="@dimen/margin_15"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_app"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/viewAnimate2"
-                android:layout_width="@dimen/home_logo_size"
-                android:layout_height="@dimen/home_logo_size"
-                android:layout_marginBottom="@dimen/margin_15"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_app"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/viewAnimate3"
-                android:layout_width="@dimen/home_logo_size"
-                android:layout_height="@dimen/home_logo_size"
-                android:layout_marginBottom="@dimen/margin_15"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_app"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imvLogo"
-                android:layout_width="@dimen/home_logo_size"
-                android:layout_height="@dimen/home_logo_size"
-                android:layout_marginBottom="@dimen/margin_15"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_app"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:text="@string/bestbus_cap"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_25"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imvLogo" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvBestDeals"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-
-            <ProgressBar
-                android:id="@+id/progressBestDeal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-        </FrameLayout>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_main"
             android:orientation="vertical">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_5"
-                android:layout_marginTop="@dimen/margin_5"
-                android:fontFamily="serif"
-                android:text="@string/offers"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_18"
-                android:textStyle="bold" />
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:background="@drawable/bg_home_header"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_bar_height">
+
+                    <ImageView
+                        android:id="@+id/imvMenu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/book_tour"
+                        android:src="@drawable/ic_app" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:contentDescription="@null"
+                        android:scaleType="fitEnd"
+                        android:src="@drawable/ic_app" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/viewAnimate1"
+                    android:layout_width="@dimen/home_logo_size"
+                    android:layout_height="@dimen/home_logo_size"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_app" />
+
+                <ImageView
+                    android:id="@+id/viewAnimate2"
+                    android:layout_width="@dimen/home_logo_size"
+                    android:layout_height="@dimen/home_logo_size"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_app" />
+
+                <ImageView
+                    android:id="@+id/viewAnimate3"
+                    android:layout_width="@dimen/home_logo_size"
+                    android:layout_height="@dimen/home_logo_size"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_app" />
+
+                <ImageView
+                    android:id="@+id/imvLogo"
+                    android:layout_width="@dimen/home_logo_size"
+                    android:layout_height="@dimen/home_logo_size"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_app" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/imvLogo"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/bestbus_cap"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_25"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp"
+                android:layout_weight="3">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcvOffers"
+                    android:id="@+id/rcvBestDeals"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingHorizontal="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:visibility="gone" />
+                    android:orientation="horizontal"
+                    app:adapter="@{viewModel.dealAdapter}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <ProgressBar
-                    android:id="@+id/progressOffer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    app:isVisible="@{viewModel.dealLoading}" />
             </FrameLayout>
-        </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/viewMenuLeft"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:animateLayoutChanges="true"
-        android:background="@color/white"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4">
 
-        <LinearLayout
-            android:id="@+id/viewProfile"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:background="#000"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_15">
+                <TextView
+                    android:id="@+id/tvOffers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_5"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:fontFamily="serif"
+                    android:text="@string/offers"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_18"
+                    android:textStyle="bold" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/home_avatar_size"
-                android:layout_height="@dimen/home_avatar_size"
-                app:cardCornerRadius="@dimen/home_avatar_size_half"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/imvAvatar"
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="@null"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_app" />
-            </androidx.cardview.widget.CardView>
+                    android:layout_below="@id/tvOffers"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    app:adapter="@{viewModel.offerAdapter}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:singleLine="true"
-                android:textColor="@color/colorAppRed" />
-
-            <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_2.5"
-                android:singleLine="true"
-                android:textColor="@color/colorAppRed" />
-
-            <TextView
-                android:id="@+id/tvPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_2.5"
-                android:singleLine="true"
-                android:textColor="@color/colorAppRed" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:isVisible="@{viewModel.offerLoading}" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/viewMenuLeft"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:animateLayoutChanges="true"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/viewScanTicket"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="@dimen/margin_15">
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:background="@color/black"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_15"
+                app:isVisible="@{viewModel.user != null}">
 
-                <ImageView
-                    android:layout_width="@dimen/home_menu_icon_size"
-                    android:layout_height="@dimen/home_menu_icon_size"
-                    android:contentDescription="@string/scan_ticket"
-                    android:src="@drawable/ic_app" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="@dimen/home_avatar_size"
+                    android:layout_height="@dimen/home_avatar_size"
+                    app:cardCornerRadius="@dimen/home_avatar_size_half"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_app"
+                        app:isPlaceHolder="@{true}"
+                        app:dimens="@{@dimen/home_avatar_size}"
+                        app:imageUrl="@{viewModel.user.image}" />
+                </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:text="@string/scan_ticket"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:singleLine="true"
+                    android:text="@{viewModel.user.name}"
+                    android:textColor="@color/colorAppRed" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2.5"
+                    android:singleLine="true"
+                    android:text="@{viewModel.user.email}"
+                    android:textColor="@color/colorAppRed" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2.5"
+                    android:singleLine="true"
+                    android:text="@{viewModel.user.phone}"
+                    android:textColor="@color/colorAppRed"
+                    app:isVisible="@{viewModel.user.phone != null &amp;&amp; viewModel.user.phone.length() > 0}" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/viewBookTour"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="@dimen/margin_15">
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/iconBookTour"
-                    android:layout_width="@dimen/home_menu_icon_size"
-                    android:layout_height="@dimen/home_menu_icon_size"
-                    android:contentDescription="@string/book_tour"
-                    android:src="@drawable/ic_app" />
-
-                <TextView
+                <FrameLayout
+                    android:id="@+id/viewScanTicket"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:text="@string/book_tour"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:isVisible="@{viewModel.user.isAdmin() == 1}">
 
-            <LinearLayout
-                android:id="@+id/viewLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="@dimen/margin_15">
+                    <ImageView
+                        android:layout_width="@dimen/home_menu_icon_width"
+                        android:layout_height="@dimen/home_menu_icon_size"
+                        android:contentDescription="@string/scan_ticket"
+                        android:src="@drawable/ic_app" />
 
-                <ImageView
-                    android:id="@+id/iconLogin"
-                    android:layout_width="@dimen/home_menu_icon_size"
-                    android:layout_height="@dimen/home_menu_icon_size"
-                    android:contentDescription="@string/login_register"
-                    android:src="@drawable/ic_app" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/home_menu_icon_width"
+                        android:text="@string/scan_ticket"
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+                </FrameLayout>
 
-                <TextView
+                <FrameLayout
+                    android:id="@+id/viewBookTour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:text="@string/login_register"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:isVisible="@{viewModel.user.isAdmin() != 1}">
 
-            <LinearLayout
-                android:id="@+id/viewYourTicket"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="@dimen/margin_15">
+                    <ImageView
+                        android:id="@+id/iconBookTour"
+                        android:layout_width="@dimen/home_menu_icon_width"
+                        android:layout_height="@dimen/home_menu_icon_size"
+                        android:contentDescription="@string/scan_ticket"
+                        android:src="@drawable/ic_app" />
 
-                <ImageView
-                    android:layout_width="@dimen/home_menu_icon_size"
-                    android:layout_height="@dimen/home_menu_icon_size"
-                    android:contentDescription="@string/your_tickets"
-                    android:src="@drawable/ic_app" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/home_menu_icon_width"
+                        android:text="@string/book_tour"
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+                </FrameLayout>
 
-                <TextView
+                <FrameLayout
+                    android:id="@+id/viewLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:text="@string/your_tickets"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:isVisible="@{viewModel.user == null}">
 
-            <LinearLayout
-                android:id="@+id/viewUpdateProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="@dimen/margin_15">
+                    <ImageView
+                        android:id="@+id/iconLogin"
+                        android:layout_width="@dimen/home_menu_icon_width"
+                        android:layout_height="@dimen/home_menu_icon_size"
+                        android:contentDescription="@string/scan_ticket"
+                        android:src="@drawable/ic_app" />
 
-                <ImageView
-                    android:layout_width="@dimen/home_menu_icon_size"
-                    android:layout_height="@dimen/home_menu_icon_size"
-                    android:contentDescription="@string/update_profile"
-                    android:src="@drawable/ic_app" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/home_menu_icon_width"
+                        android:text="@string/login_register"
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+                </FrameLayout>
 
-                <TextView
+                <FrameLayout
+                    android:id="@+id/viewYourTicket"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:text="@string/update_profile"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:isVisible="@{viewModel.user.isAdmin() != 1}">
 
-            <LinearLayout
-                android:id="@+id/viewAddTour"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="@dimen/margin_15">
+                    <ImageView
+                        android:layout_width="@dimen/home_menu_icon_width"
+                        android:layout_height="@dimen/home_menu_icon_size"
+                        android:contentDescription="@string/scan_ticket"
+                        android:src="@drawable/ic_app" />
 
-                <ImageView
-                    android:layout_width="@dimen/home_menu_icon_size"
-                    android:layout_height="@dimen/home_menu_icon_size"
-                    android:contentDescription="@string/logout"
-                    android:src="@drawable/ic_app" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/home_menu_icon_width"
+                        android:text="@string/your_tickets"
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+                </FrameLayout>
 
-                <TextView
+                <FrameLayout
+                    android:id="@+id/viewUpdateProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:text="@string/add_tour_underline"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:isVisible="@{viewModel.user != null}">
 
-            <LinearLayout
-                android:id="@+id/viewLogout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="@dimen/margin_15">
+                    <ImageView
+                        android:layout_width="@dimen/home_menu_icon_width"
+                        android:layout_height="@dimen/home_menu_icon_size"
+                        android:contentDescription="@string/scan_ticket"
+                        android:src="@drawable/ic_app" />
 
-                <ImageView
-                    android:layout_width="@dimen/home_menu_icon_size"
-                    android:layout_height="@dimen/home_menu_icon_size"
-                    android:contentDescription="@string/logout"
-                    android:src="@drawable/ic_app" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/home_menu_icon_width"
+                        android:text="@string/update_profile"
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+                </FrameLayout>
 
-                <TextView
+                <FrameLayout
+                    android:id="@+id/viewAddTour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:text="@string/logout"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:isVisible="@{viewModel.user.isAdmin() == 1}">
+
+                    <ImageView
+                        android:layout_width="@dimen/home_menu_icon_width"
+                        android:layout_height="@dimen/home_menu_icon_size"
+                        android:contentDescription="@string/scan_ticket"
+                        android:src="@drawable/ic_app" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/home_menu_icon_width"
+                        android:text="@string/add_tour_underline"
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/viewLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:isVisible="@{viewModel.user != null}">
+
+                    <ImageView
+                        android:layout_width="@dimen/home_menu_icon_width"
+                        android:layout_height="@dimen/home_menu_icon_size"
+                        android:contentDescription="@string/scan_ticket"
+                        android:src="@drawable/ic_app" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/home_menu_icon_width"
+                        android:text="@string/logout"
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</androidx.drawerlayout.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

@@ -42,10 +42,10 @@ interface ApiService {
                 @Field("totalAmount") totalAmount: Float): Response<Ticket>
 
     @GET("getDeal.php")
-    fun getDeal(): Response<ArrayList<Deal>>
+    suspend fun getDeal(): Response<ArrayList<Deal>>
 
     @GET("getOffer.php")
-    fun getOffer(): Response<ArrayList<Offer>>
+    suspend fun getOffer(): Response<ArrayList<Offer>>
 
     @GET("scanTicket.php")
     fun scanTicket(@Query("qrCode") qrCode: String): Response<Ticket>
