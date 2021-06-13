@@ -12,7 +12,6 @@ import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Pair
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -92,29 +91,30 @@ class HomeActivity : BaseActivity() {
                     return@setOnClickListener
                 }
             }
-            if (File(Constant.TICKET_FOLDER).listFiles().isNullOrEmpty()) {
+            val files = File(Constant.TICKET_FOLDER).listFiles()
+            if (files.isNullOrEmpty()) {
                 showToast(getString(R.string.no_ticket_found))
             } else {
-                val files = ArrayList<File>()
-                for (file in File(Constant.TICKET_FOLDER).listFiles()!!) {
+                val tickets = ArrayList<File>()
+                for (file in files) {
                     val name = file.name
                     if (name.toLowerCase(Locale.US).endsWith(".png")) {
                         try {
                             name.substring(0, 13).toLong()
                             name.substring(13, name.length - 4).toInt().toString()
-                            files.add(0, file)
+                            tickets.add(0, file)
                         } catch (e: Exception) {
-                            files.add(file)
+                            tickets.add(file)
                         }
                     }
                 }
-                Dialog(this).apply {
+                with(Dialog(this)) {
                     val recyclerView = RecyclerView(this@HomeActivity)
-                    recyclerView.adapter = MyTicketAdapter(this@HomeActivity, files)
+                    recyclerView.adapter = MyTicketAdapter(this@HomeActivity, tickets)
                     recyclerView.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.VERTICAL, false)
                     setContentView(recyclerView)
-                    window?.attributes?.width = WindowManager.LayoutParams.MATCH_PARENT
-                    window?.attributes?.height = WindowManager.LayoutParams.MATCH_PARENT
+                    window?.attributes?.width = RecyclerView.LayoutParams.MATCH_PARENT
+                    window?.attributes?.height = RecyclerView.LayoutParams.MATCH_PARENT
                     show()
                 }
             }
@@ -145,15 +145,11 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onResume() {
+        super.onResume()
         mBinding.viewAnimate1.clearAnimation()
         mBinding.viewAnimate2.clearAnimation()
         mBinding.viewAnimate3.clearAnimation()
-    }
-
-    override fun onResume() {
-        super.onResume()
         mBinding.viewAnimate1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in))
         Handler(Looper.getMainLooper()).postDelayed({
             mBinding.viewAnimate2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in))

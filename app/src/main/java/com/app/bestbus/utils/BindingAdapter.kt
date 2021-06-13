@@ -13,7 +13,7 @@ object BindingAdapter {
     @BindingAdapter(value = ["imageUrl", "dimens", "isPlaceHolder"], requireAll = false)
     fun ImageView.loadImage(url: String?, dimens: Float?, isPlaceHolder: Boolean) {
         if (url != null) {
-            Picasso.get().load(Constant.BASE_URL + url).apply {
+            with(Picasso.get().load(Constant.BASE_URL + url)) {
                 if (dimens != null) {
                     resize(dimens.toInt(), dimens.toInt())
                 }
@@ -38,7 +38,7 @@ object BindingAdapter {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                listener.onChanged(s.toString())
+                listener.onChanged(s.toString().trim())
             }
         })
     }

@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/departure_to_arrival"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_large"
+                        android:textSize="@dimen/text_normal"
                         android:textStyle="bold" />
 
                     <TextView
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{deal.description}"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_normal"
+                        android:textSize="@dimen/text_small"
                         android:textStyle="bold" />
                 </LinearLayout>
 

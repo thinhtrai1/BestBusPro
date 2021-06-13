@@ -26,7 +26,7 @@ interface ApiService {
                       @Part image: MultipartBody.Part?): Response<User>
 
     @GET("getTour.php")
-    fun getTour(@Query("from") from: String, @Query("to") to: String): Response<ArrayList<Tour>>
+    suspend fun getTour(@Query("from") from: String, @Query("to") to: String): Response<ArrayList<Tour>>
 
     @FormUrlEncoded
     @POST("bookTour.php")
