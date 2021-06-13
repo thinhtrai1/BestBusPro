@@ -21,7 +21,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.scanTicket.ScanTicketActivity" />
         <activity
-            android:name=".activities.DetailActivity"
+            android:name=".ui.detail.DetailActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.searchTour.SearchTourActivity" />
         <activity
@@ -39,7 +39,7 @@
         <activity
             android:name=".activities.PaymentActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.SelectSeatActivity" />
+        <activity android:name=".ui.selectSeat.SelectSeatActivity" />
         <activity android:name=".ui.tourList.TourListActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
