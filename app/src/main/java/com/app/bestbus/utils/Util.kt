@@ -5,6 +5,7 @@ import java.util.*
 
 object Util {
 
+    @JvmStatic
     fun formatFloat(input: Float): String {
         return if (input == input.toInt().toFloat())
             input.toInt().toString()
@@ -12,6 +13,7 @@ object Util {
             String.format(Locale.US, "%.2f", input).toFloat().toString()
     }
 
+    @JvmStatic
     fun getEndTime(startTime: String?, duration: Float): String? {
         return try {
             Constant.timeFormat.format(Calendar.getInstance().apply {
@@ -23,6 +25,8 @@ object Util {
         }
     }
 
+
+    @JvmStatic
     fun getEndDate(startDate: String?, startTime: String?, duration: Float): String? {
         return try {
             Constant.dateFormat.format(Calendar.getInstance().apply {

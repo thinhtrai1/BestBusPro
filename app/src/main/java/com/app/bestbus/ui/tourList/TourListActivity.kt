@@ -25,7 +25,7 @@ class TourListActivity : BaseActivity() {
             startActivity(Intent(this, HomeActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
         }
-        mViewModel.loading.observe(this) {
+        mViewModel.loading.observe {
             showLoading(it)
         }
     }

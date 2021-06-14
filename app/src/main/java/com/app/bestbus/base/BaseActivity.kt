@@ -4,6 +4,8 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.app.bestbus.R
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -18,12 +20,18 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showLoading(isLoading: Boolean) {
+    protected fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             mProgressDialog.show()
         } else {
             mProgressDialog.dismiss()
         }
+    }
+
+    protected fun <T> MutableLiveData<T>.observe(action: (T) -> Unit) {
+        observe(this@BaseActivity, Observer {
+            action(it)
+        })
     }
 
     override fun startActivity(intent: Intent?) {

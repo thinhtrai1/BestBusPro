@@ -55,6 +55,10 @@ class HomeActivity : BaseActivity() {
         }
         mViewModel.dealAdapter.itemLayout = ViewGroup.LayoutParams(metrics.widthPixels * 3 / 4, ViewGroup.LayoutParams.MATCH_PARENT)
 
+        mBinding.viewAnimate1.animation = AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in)
+        mBinding.viewAnimate2.animation = AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in)
+        mBinding.viewAnimate3.animation = AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in)
+
         listener()
     }
 
@@ -145,16 +149,20 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        mBinding.viewAnimate1.animation.cancel()
+        mBinding.viewAnimate2.animation.cancel()
+        mBinding.viewAnimate3.animation.cancel()
+    }
+
     override fun onResume() {
         super.onResume()
-        mBinding.viewAnimate1.clearAnimation()
-        mBinding.viewAnimate2.clearAnimation()
-        mBinding.viewAnimate3.clearAnimation()
-        mBinding.viewAnimate1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in))
+        mBinding.viewAnimate1.animation.start()
         Handler(Looper.getMainLooper()).postDelayed({
-            mBinding.viewAnimate2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in))
+            mBinding.viewAnimate2.animation.start()
             Handler(Looper.getMainLooper()).postDelayed({
-                mBinding.viewAnimate3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.home_logo_zoom_in))
+                mBinding.viewAnimate3.animation.start()
             }, 1000)
         }, 1000)
     }
