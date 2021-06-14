@@ -30,7 +30,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("bookTour.php")
-    fun booking(@Field("userId") userId: Int?,
+    suspend fun booking(@Field("userId") userId: Int?,
                 @Field("name") name: String,
                 @Field("email") email: String,
                 @Field("phone") phone: String,

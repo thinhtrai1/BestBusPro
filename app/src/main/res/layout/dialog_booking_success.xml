@@ -34,7 +34,6 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/margin_20"
             android:layout_marginTop="@dimen/home_avatar_size_half"
-            android:layout_weight="1"
             android:background="@drawable/bg_search_tour"
             android:paddingTop="@dimen/home_avatar_size_half"
             app:layout_constraintBottom_toTopOf="@id/imvQRCode"
@@ -63,7 +62,8 @@
         <ImageView
             android:id="@+id/imvQRCode"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/payment_image_qr_code_size"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.2"
             android:layout_marginHorizontal="@dimen/margin_20"
             android:layout_marginVertical="@dimen/margin_15"
             android:background="@drawable/bg_image_qr_code"

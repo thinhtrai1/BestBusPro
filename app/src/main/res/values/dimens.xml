@@ -30,9 +30,4 @@
     <dimen name="search_tour_margin_top">60dp</dimen>
 
     <dimen name="select_seat_icon_size">30dp</dimen>
-
-    <dimen name="payment_edt_height">45dp</dimen>
-    <dimen name="payment_edt_title_height">24dp</dimen>
-    <dimen name="payment_edt_title_radius">12dp</dimen>
-    <dimen name="payment_image_qr_code_size">130dp</dimen>
 </resources>

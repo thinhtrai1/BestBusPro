@@ -38,6 +38,7 @@ import kotlin.collections.ArrayList
 class HomeActivity : BaseActivity() {
     private lateinit var mBinding: ActivityHomeBinding
     private val mViewModel: HomeViewModel by viewModels()
+    private val mAnimationHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,24 +150,6 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        mBinding.viewAnimate1.animation.cancel()
-        mBinding.viewAnimate2.animation.cancel()
-        mBinding.viewAnimate3.animation.cancel()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mBinding.viewAnimate1.animation.start()
-        Handler(Looper.getMainLooper()).postDelayed({
-            mBinding.viewAnimate2.animation.start()
-            Handler(Looper.getMainLooper()).postDelayed({
-                mBinding.viewAnimate3.animation.start()
-            }, 1000)
-        }, 1000)
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -176,5 +159,28 @@ class HomeActivity : BaseActivity() {
                 startActivity(Intent(this, ScanTicketActivity::class.java))
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mBinding.viewAnimate1.animation.cancel()
+        mBinding.viewAnimate2.animation.cancel()
+        mBinding.viewAnimate3.animation.cancel()
+    }
+
+    override fun onResume() {
+        mBinding.viewAnimate1.animation.start()
+        mAnimationHandler.postDelayed({
+            mBinding.viewAnimate2.animation.start()
+            mAnimationHandler.postDelayed({
+                mBinding.viewAnimate3.animation.start()
+            }, 1000)
+        }, 1000)
+        super.onResume()
+    }
+
+    override fun onDestroy() {
+        mAnimationHandler.removeCallbacksAndMessages(null)
+        super.onDestroy()
     }
 }

@@ -37,7 +37,7 @@
             android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PaymentActivity"
+            android:name=".ui.payment.PaymentActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.selectSeat.SelectSeatActivity" />
         <activity android:name=".ui.tourList.TourListActivity" />
