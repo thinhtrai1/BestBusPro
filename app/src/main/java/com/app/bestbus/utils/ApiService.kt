@@ -10,15 +10,15 @@ import retrofit2.http.*
 interface ApiService {
     @FormUrlEncoded
     @POST("login.php")
-    fun login(@Field("email") email: String, @Field("password") password: String): Response<User>
+    suspend fun login(@Field("email") email: String, @Field("password") password: String): Response<User>
 
     @FormUrlEncoded
     @POST("signUp.php")
-    fun signUp(@Field("email") email: String, @Field("password") password: String, @Field("name") name: String): Response<User>
+    suspend fun signUp(@Field("email") email: String, @Field("password") password: String, @Field("name") name: String): Response<User>
 
     @Multipart
     @POST("updateProfile.php")
-    fun updateProfile(@Part("userId") userId: RequestBody,
+    suspend fun updateProfile(@Part("userId") userId: RequestBody,
                       @Part("name") name: RequestBody,
                       @Part("email") contact_no: RequestBody,
                       @Part("phone") password: RequestBody,
@@ -48,11 +48,11 @@ interface ApiService {
     suspend fun getOffer(): Response<ArrayList<Offer>>
 
     @GET("scanTicket.php")
-    fun scanTicket(@Query("qrCode") qrCode: String): Response<Ticket>
+    suspend fun scanTicket(@Query("qrCode") qrCode: String): Response<Ticket>
 
     @FormUrlEncoded
     @POST("addTour.php")
-    fun addTour(@Field("tourName") tourName: String,
+    suspend fun addTour(@Field("tourName") tourName: String,
                 @Field("oldPrice") oldPrice: String,
                 @Field("price") price: String,
                 @Field("startTime") startTime: String,

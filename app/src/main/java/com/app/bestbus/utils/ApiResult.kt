@@ -15,7 +15,7 @@ sealed class ApiResult<out T> {
                             return Success(it)
                         }
                     }
-                    return Error(Exception(message()))
+                    return Error(Exception(errorBody()?.string()))
                 }
             } catch (e: Exception) {
                 return Error(e)

@@ -9,7 +9,10 @@ class SharedPreferencesHelper {
         return mSharedPreferences.getString(key, defaultValue)
     }
 
-    operator fun set(key: String, data: String?) {
+    operator fun set(key: String, data: String?): SharedPreferencesHelper {
         mSharedPreferences.edit().putString(key, data).apply()
+        return this
     }
+
+    fun getSharedPreferences() = mSharedPreferences!!
 }

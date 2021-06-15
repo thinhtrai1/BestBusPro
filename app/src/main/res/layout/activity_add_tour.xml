@@ -1,158 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_main"
-    android:orientation="vertical">
+<layout>
 
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
-        android:background="@drawable/bg_home_header"
-        android:gravity="center"
-        android:text="@string/add_tour"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_18"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main"
+        android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bar_height"
+            android:background="@drawable/bg_home_header"
+            android:gravity="center"
+            android:text="@string/add_tour"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_20"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edtTourName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/tour_name"
+                    android:inputType="text"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtOldPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/old_price"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/price"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtVAT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/vat"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <TextView
+                    android:id="@+id/edtStartTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/start_time"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/time"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/from"
+                    android:inputType="textCapWords"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/to"
+                    android:inputType="textCapWords"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtSeatQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/seat_quantity"
+                    android:inputType="number"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/edtCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/bg_btn_register"
+                    android:hint="@string/count"
+                    android:inputType="number"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="@dimen/text_normal" />
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_20"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/edtTourName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/tour_name"
-                android:inputType="text"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtOldPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/old_price"
-                android:inputType="numberDecimal"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/price"
-                android:inputType="numberDecimal"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtVAT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/vat"
-                android:inputType="numberDecimal"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <TextView
-                android:id="@+id/edtStartTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/start_time"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/time"
-                android:inputType="numberDecimal"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/from"
-                android:inputType="textCapWords"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtTo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/to"
-                android:inputType="textCapWords"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtSeatQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/seat_quantity"
-                android:inputType="number"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-
-            <EditText
-                android:id="@+id/edtCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_btn_register"
-                android:hint="@string/count"
-                android:inputType="number"
-                android:padding="@dimen/margin_10"
-                android:textSize="@dimen/text_normal" />
-        </LinearLayout>
-    </ScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
-
-    <Button
-        android:id="@+id/btnConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="@dimen/margin_15"
-        android:background="@drawable/bg_btn_login"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:paddingHorizontal="@dimen/home_avatar_size"
-        android:paddingVertical="@dimen/margin_10"
-        android:text="@string/confirm"
-        android:textColor="@color/color_white_green"
-        android:textSize="@dimen/text_18"
-        android:textStyle="bold" />
-</LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="@dimen/margin_15"
+            android:background="@drawable/bg_btn_login"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:paddingHorizontal="@dimen/home_avatar_size"
+            android:paddingVertical="@dimen/margin_10"
+            android:text="@string/confirm"
+            android:textColor="@color/color_white_green"
+            android:textSize="@dimen/text_18"
+            android:textStyle="bold" />
+    </LinearLayout>
+</layout>

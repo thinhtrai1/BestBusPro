@@ -4,12 +4,12 @@ import com.app.bestbus.utils.ApiResult
 import com.app.bestbus.utils.ApiService
 import javax.inject.Inject
 
-class HomeRepositoryImpl @Inject constructor(private val apiClient: ApiService) : HomeRepository {
+class HomeRepositoryImpl @Inject constructor(private val apiService: ApiService) : HomeRepository {
     override suspend fun getDeal() = ApiResult.getResult {
-        apiClient.getDeal()
+        apiService.getDeal()
     }
 
     override suspend fun getOffer() = ApiResult.getResult {
-        apiClient.getOffer()
+        apiService.getOffer()
     }
 }

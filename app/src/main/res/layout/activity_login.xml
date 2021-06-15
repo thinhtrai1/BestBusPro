@@ -1,126 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_main"
-    android:orientation="vertical">
+<layout>
 
-    <FrameLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.app.bestbus.ui.login.LoginViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main"
+        android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/home_logo_size"
-            android:layout_height="@dimen/home_logo_size"
-            android:layout_gravity="bottom|center_horizontal"
-            app:cardBackgroundColor="@color/black"
-            app:cardCornerRadius="@dimen/home_logo_size_half"
-            app:cardElevation="0dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
 
-            <ImageView
-                android:id="@+id/imvLogo"
+            <androidx.cardview.widget.CardView
                 android:layout_width="@dimen/home_logo_size"
                 android:layout_height="@dimen/home_logo_size"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_app"
-                android:transitionName="iconLogo" />
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
+                android:layout_gravity="bottom|center_horizontal"
+                app:cardBackgroundColor="@color/black"
+                app:cardCornerRadius="@dimen/home_logo_size_half"
+                app:cardElevation="0dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7"
-        android:animateLayoutChanges="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/margin_15">
+                <ImageView
+                    android:id="@+id/imvLogo"
+                    android:layout_width="@dimen/home_logo_size"
+                    android:layout_height="@dimen/home_logo_size"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_app"
+                    android:transitionName="iconLogo" />
+            </androidx.cardview.widget.CardView>
+        </FrameLayout>
 
-        <EditText
-            android:id="@+id/edtName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_btn_register"
-            android:hint="@string/your_name"
-            android:inputType="textCapWords"
-            android:padding="@dimen/margin_10"
-            android:textSize="@dimen/text_large"
-            android:visibility="gone" />
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:animateLayoutChanges="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_15">
 
-        <EditText
-            android:id="@+id/edtPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_btn_register"
-            android:hint="@string/phone"
-            android:inputType="phone"
-            android:padding="@dimen/margin_10"
-            android:textSize="@dimen/text_large"
-            android:visibility="gone" />
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_register"
+                android:hint="@string/your_name"
+                android:inputType="textCapWords"
+                android:padding="@dimen/margin_10"
+                android:textSize="@dimen/text_large"
+                android:visibility="gone"
+                app:onTextChanged="@{(s) -> viewModel.setName(s)}" />
 
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_btn_register"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:padding="@dimen/margin_10"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_large" />
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_btn_register"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:padding="@dimen/margin_10"
+                android:textSize="@dimen/text_large"
+                android:visibility="gone"
+                app:onTextChanged="@{(s) -> viewModel.setPhone(s)}" />
 
-        <EditText
-            android:id="@+id/edtPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_btn_register"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:padding="@dimen/margin_10"
-            android:textSize="@dimen/text_large" />
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_btn_register"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/margin_10"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_large"
+                app:onTextChanged="@{(s) -> viewModel.setEmail(s)}" />
 
-        <EditText
-            android:id="@+id/edtConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_btn_register"
-            android:hint="@string/confirm_password"
-            android:inputType="textPassword"
-            android:padding="@dimen/margin_10"
-            android:textSize="@dimen/text_large"
-            android:visibility="gone" />
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_btn_register"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="@dimen/margin_10"
+                android:textSize="@dimen/text_large"
+                app:onTextChanged="@{(s) -> viewModel.setPassword(s)}" />
 
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/title_bar_height"
-            android:background="@drawable/bg_btn_login"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:paddingHorizontal="@dimen/home_avatar_size"
-            android:paddingVertical="@dimen/margin_10"
-            android:text="@string/login"
-            android:textColor="@color/color_white_green"
-            android:textSize="@dimen/text_18"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/edtConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_btn_register"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"
+                android:padding="@dimen/margin_10"
+                android:textSize="@dimen/text_large"
+                android:visibility="gone"
+                app:onTextChanged="@{(s) -> viewModel.setConfirmPassword(s)}" />
 
-        <TextView
-            android:id="@+id/tvSignUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_15"
-            android:background="@drawable/bg_btn_register"
-            android:paddingHorizontal="@dimen/margin_15"
-            android:paddingVertical="@dimen/margin_5"
-            android:text="@string/register"
-            android:textColor="@color/color_black_white"
-            android:textSize="@dimen/text_normal" />
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/title_bar_height"
+                android:background="@drawable/bg_btn_login"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:paddingHorizontal="@dimen/home_avatar_size"
+                android:paddingVertical="@dimen/margin_10"
+                android:text="@string/login"
+                android:textColor="@color/color_white_green"
+                android:textSize="@dimen/text_18"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15"
+                android:background="@drawable/bg_btn_register"
+                android:paddingHorizontal="@dimen/margin_15"
+                android:paddingVertical="@dimen/margin_5"
+                android:text="@string/register"
+                android:textColor="@color/color_black_white"
+                android:textSize="@dimen/text_normal" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</layout>
