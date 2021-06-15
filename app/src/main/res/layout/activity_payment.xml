@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.app.bestbus.ui.payment.PaymentViewModel" />
+    </data>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -94,6 +101,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
                             android:background="@android:color/transparent"
+                            android:text="@{viewModel.name}"
+                            app:onTextChanged="@{(s) -> viewModel.setName(s)}"
                             android:hint="@string/your_name"
                             android:inputType="textCapSentences"
                             android:padding="0dp"
@@ -129,8 +138,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
                             android:background="@android:color/transparent"
+                            android:text="@{viewModel.email}"
                             android:hint="@string/email"
                             android:inputType="textEmailAddress"
+                            app:onTextChanged="@{(s) -> viewModel.setEmail(s)}"
                             android:padding="0dp"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
@@ -164,9 +175,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
                             android:background="@android:color/transparent"
+                            android:text="@{viewModel.phone}"
                             android:hint="@string/phone"
                             android:inputType="phone"
                             android:padding="0dp"
+                            app:onTextChanged="@{(s) -> viewModel.setPhone(s)}"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
                             android:textStyle="bold"
@@ -215,14 +228,16 @@
                             android:id="@+id/edtCreditCard"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_20"
                             android:layout_marginTop="@dimen/margin_20"
                             android:background="@drawable/bg_edt_input_payment"
                             android:focusable="false"
                             android:gravity="bottom"
+                            android:text="@{viewModel.creditCard}"
+                            app:onTextChanged="@{(s) -> viewModel.setCreditCard(s)}"
                             android:hint="@string/please_select_your_card"
                             android:inputType="text"
                             android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingTop="@dimen/margin_20"
                             android:paddingBottom="@dimen/margin_5"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
@@ -231,41 +246,51 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/spm" />
 
-                        <FrameLayout
+                        <TextView
+                            android:id="@+id/tvCreditCard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_10"
-                            android:background="@color/white"
+                            android:layout_marginStart="@dimen/margin_15"
+                            android:background="@drawable/bg_progress_dialog"
+                            android:elevation="@dimen/margin_2.5"
+                            android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingVertical="@dimen/margin_5"
+                            android:text="@string/debit_credit_card"
+                            android:textColor="@color/color_selecting"
+                            android:textSize="@dimen/text_normal"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@id/edtCreditCard"
                             app:layout_constraintStart_toStartOf="@id/edtCreditCard"
-                            app:layout_constraintTop_toTopOf="@id/edtCreditCard">
+                            app:layout_constraintTop_toTopOf="@id/edtCreditCard" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_5"
-                                android:background="@drawable/bg_progress_dialog"
-                                android:elevation="@dimen/margin_2.5"
-                                android:paddingHorizontal="@dimen/margin_10"
-                                android:paddingVertical="@dimen/margin_5"
-                                android:text="@string/debit_credit_card"
-                                android:textColor="@color/color_selecting"
-                                android:textSize="@dimen/text_normal"
-                                android:textStyle="bold" />
-                        </FrameLayout>
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/tvCreditCard"
+                            app:layout_constraintTop_toTopOf="@id/edtCreditCard" />
+
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintStart_toEndOf="@id/tvCreditCard"
+                            app:layout_constraintTop_toTopOf="@id/edtCreditCard" />
 
                         <EditText
                             android:id="@+id/edtNetBanking"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_20"
                             android:layout_marginTop="@dimen/margin_20"
                             android:background="@drawable/bg_edt_input_payment"
                             android:focusable="false"
                             android:gravity="bottom"
+                            android:text="@{viewModel.netBanking}"
+                            app:onTextChanged="@{(s) -> viewModel.setNetBanking(s)}"
                             android:hint="@string/pay_by_your_bank_account"
                             android:inputType="text"
                             android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingTop="@dimen/margin_20"
                             android:paddingBottom="@dimen/margin_5"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
@@ -274,41 +299,51 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/edtCreditCard" />
 
-                        <FrameLayout
+                        <TextView
+                            android:id="@+id/tvNetBanking"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_10"
-                            android:background="@color/white"
+                            android:layout_marginStart="@dimen/margin_15"
+                            android:background="@drawable/bg_progress_dialog"
+                            android:elevation="@dimen/margin_2.5"
+                            android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingVertical="@dimen/margin_5"
+                            android:text="@string/net_banking"
+                            android:textColor="@color/color_selecting"
+                            android:textSize="@dimen/text_normal"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@id/edtNetBanking"
                             app:layout_constraintStart_toStartOf="@id/edtNetBanking"
-                            app:layout_constraintTop_toTopOf="@id/edtNetBanking">
+                            app:layout_constraintTop_toTopOf="@id/edtNetBanking" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_5"
-                                android:background="@drawable/bg_progress_dialog"
-                                android:elevation="@dimen/margin_2.5"
-                                android:paddingHorizontal="@dimen/margin_10"
-                                android:paddingVertical="@dimen/margin_5"
-                                android:text="@string/net_banking"
-                                android:textColor="@color/color_selecting"
-                                android:textSize="@dimen/text_normal"
-                                android:textStyle="bold" />
-                        </FrameLayout>
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/tvNetBanking"
+                            app:layout_constraintTop_toTopOf="@id/edtNetBanking" />
+
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintStart_toEndOf="@id/tvNetBanking"
+                            app:layout_constraintTop_toTopOf="@id/edtNetBanking" />
 
                         <EditText
                             android:id="@+id/edtCodeShipping"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_20"
                             android:layout_marginTop="@dimen/margin_20"
                             android:background="@drawable/bg_edt_input_payment"
                             android:ellipsize="end"
+                            android:text="@{viewModel.codeShipping}"
+                            app:onTextChanged="@{(s) -> viewModel.setCodeShipping(s)}"
                             android:gravity="bottom"
                             android:hint="@string/tell_us_your_address"
                             android:inputType="text"
                             android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingTop="@dimen/margin_20"
                             android:paddingBottom="@dimen/margin_5"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
@@ -317,38 +352,46 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/edtNetBanking" />
 
-                        <FrameLayout
+                        <TextView
+                            android:id="@+id/tvCodeShipping"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_10"
-                            android:background="@color/white"
+                            android:layout_marginStart="@dimen/margin_15"
+                            android:background="@drawable/bg_progress_dialog"
+                            android:elevation="@dimen/margin_2.5"
+                            android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingVertical="@dimen/margin_5"
+                            android:text="@string/code_shipping"
+                            android:textColor="@color/color_selecting"
+                            android:textSize="@dimen/text_normal"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@id/edtCodeShipping"
                             app:layout_constraintStart_toStartOf="@id/edtCodeShipping"
-                            app:layout_constraintTop_toTopOf="@id/edtCodeShipping">
+                            app:layout_constraintTop_toTopOf="@id/edtCodeShipping" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_5"
-                                android:background="@drawable/bg_progress_dialog"
-                                android:elevation="@dimen/margin_2.5"
-                                android:paddingHorizontal="@dimen/margin_10"
-                                android:paddingVertical="@dimen/margin_5"
-                                android:text="@string/code_shipping"
-                                android:textColor="@color/color_selecting"
-                                android:textSize="@dimen/text_normal"
-                                android:textStyle="bold" />
-                        </FrameLayout>
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/tvCodeShipping"
+                            app:layout_constraintTop_toTopOf="@id/edtCodeShipping" />
+
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintStart_toEndOf="@id/tvCodeShipping"
+                            app:layout_constraintTop_toTopOf="@id/edtCodeShipping" />
 
                         <TextView
                             android:id="@+id/edtAtBusStation"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_20"
                             android:layout_marginTop="@dimen/margin_20"
                             android:background="@drawable/bg_edt_input_payment"
                             android:hint="@string/get_the_pre_order"
                             android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingTop="@dimen/margin_20"
                             android:paddingBottom="@dimen/margin_5"
                             android:singleLine="true"
                             android:textColor="@color/gray_dark"
@@ -358,28 +401,36 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/edtCodeShipping" />
 
-                        <FrameLayout
+                        <TextView
+                            android:id="@+id/tvAtBusStation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_10"
-                            android:background="@color/white"
+                            android:layout_marginStart="@dimen/margin_15"
+                            android:background="@drawable/bg_progress_dialog"
+                            android:elevation="@dimen/margin_2.5"
+                            android:paddingHorizontal="@dimen/margin_10"
+                            android:paddingVertical="@dimen/margin_5"
+                            android:text="@string/payment_as_sus_station"
+                            android:textColor="@color/color_selecting"
+                            android:textSize="@dimen/text_normal"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@id/edtAtBusStation"
                             app:layout_constraintStart_toStartOf="@id/edtAtBusStation"
-                            app:layout_constraintTop_toTopOf="@id/edtAtBusStation">
+                            app:layout_constraintTop_toTopOf="@id/edtAtBusStation" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_5"
-                                android:background="@drawable/bg_progress_dialog"
-                                android:elevation="@dimen/margin_2.5"
-                                android:paddingHorizontal="@dimen/margin_10"
-                                android:paddingVertical="@dimen/margin_5"
-                                android:text="@string/payment_as_sus_station"
-                                android:textColor="@color/color_selecting"
-                                android:textSize="@dimen/text_normal"
-                                android:textStyle="bold" />
-                        </FrameLayout>
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintEnd_toStartOf="@id/tvAtBusStation"
+                            app:layout_constraintTop_toTopOf="@id/edtAtBusStation" />
+
+                        <View
+                            android:layout_width="@dimen/margin_5"
+                            android:layout_height="@dimen/margin_2.5"
+                            android:background="@color/white"
+                            app:layout_constraintStart_toEndOf="@id/tvAtBusStation"
+                            app:layout_constraintTop_toTopOf="@id/edtAtBusStation" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
