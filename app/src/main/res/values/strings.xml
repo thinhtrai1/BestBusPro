@@ -88,4 +88,7 @@
     <string name="count">Count</string>
     <string name="seat_quantity">Seat quantity</string>
     <string name="please_check_the_network_connection">Please check the network connection</string>
+    <string name="choose_one">Choose one</string>
+    <string name="from_gallery">From gallery</string>
+    <string name="take_a_picture">Take a picture</string>
 </resources>

@@ -2,15 +2,23 @@ package com.app.bestbus.ui.login
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Patterns
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.app.bestbus.R
 import com.app.bestbus.base.BaseActivity
@@ -18,12 +26,16 @@ import com.app.bestbus.databinding.ActivityLoginBinding
 import com.app.bestbus.ui.home.HomeActivity
 import com.app.bestbus.utils.BindingAdapter.loadImage
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.*
+
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
     private lateinit var mBinding: ActivityLoginBinding
     private val mViewModel: LoginViewModel by viewModels()
+    private var mTempUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,17 +59,6 @@ class LoginActivity : BaseActivity() {
                 edtPhone.setText(mViewModel.phone)
                 edtPassword.setText(mViewModel.password)
                 edtConfirmPassword.setText(mViewModel.confirmPassword)
-                imvLogo.setOnClickListener {
-                    if (ContextCompat.checkSelfPermission(this@LoginActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
-                        }
-                    } else {
-                        val intent = Intent(Intent.ACTION_PICK)
-                        intent.type = "image/*"
-                        startActivityForResult(intent, 0)
-                    }
-                }
             } else {
                 tvSignUp.setOnClickListener {
                     if (mViewModel.isLogin.value!!) {
@@ -74,6 +75,31 @@ class LoginActivity : BaseActivity() {
                 }
             }
 
+            imvLogo.setOnClickListener {
+                AlertDialog.Builder(this@LoginActivity)
+                    .setPositiveButton(getString(R.string.from_gallery)) { _, _ ->
+                        if (ContextCompat.checkSelfPermission(this@LoginActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA), 0)
+                            }
+                        } else {
+                            mPickForResult.launch("image/*")
+                        }
+                    }
+                    .setNegativeButton(getString(R.string.take_a_picture)) { _, _ ->
+                        if (ContextCompat.checkSelfPermission(this@LoginActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA), 1)
+                            }
+                        } else {
+                            val file = File.createTempFile("temp_", ".jpg", getExternalFilesDir(null))
+                            mTempUri = FileProvider.getUriForFile(this@LoginActivity, "com.app.bestbus.fileprovider", file)
+                            mTakeForResult.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, mTempUri))
+                        }
+                    }
+                    .setTitle(getString(R.string.choose_one))
+                    .show()
+            }
             btnLogin.setOnClickListener {
                 if (!isValid()) {
                     return@setOnClickListener
@@ -96,19 +122,41 @@ class LoginActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == 0) {
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
-                startActivityForResult(intent, 0)
+                mPickForResult.launch("image/*")
+            } else if (requestCode == 1) {
             }
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            mBinding.imvLogo.setImageURI(data.data)
-            mViewModel.imageUri = data.data
+    private val mPickForResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        it?.let {
+            editImage(it)
         }
-        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private val mTakeForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            mBinding.imvLogo.setImageURI(mTempUri)
+            val to = File(Environment.getExternalStorageDirectory().absolutePath + "/temp.jpg")
+            File(mTempUri.toString()).copyTo(to, true)
+            editImage(Uri.fromFile(to))
+        }
+    }
+
+    private fun editImage(uri: Uri) {
+        mViewModel.imageUri = uri
+        val editIntent = Intent(Intent.ACTION_EDIT).setDataAndType(uri, "image/*").setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        val editIntent = Intent(Intent.ACTION_EDIT).setDataAndType(uri, "image/*").setPackage("com.android.gallery3d")
+        try {
+            mEditForResult.launch(Intent.createChooser(editIntent, getString(R.string.choose_one)))
+        } catch (e: ActivityNotFoundException) {}
+    }
+
+    private val mEditForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        result.data?.data?.let {
+            mViewModel.imageUri = it
+        }
+        mBinding.imvLogo.setImageURI(mViewModel.imageUri)
     }
 
     private fun Uri?.getRealPath(): File? {
