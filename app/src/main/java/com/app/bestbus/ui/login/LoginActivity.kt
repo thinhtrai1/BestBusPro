@@ -6,16 +6,14 @@ import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Patterns
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -25,17 +23,15 @@ import com.app.bestbus.base.BaseActivity
 import com.app.bestbus.databinding.ActivityLoginBinding
 import com.app.bestbus.ui.home.HomeActivity
 import com.app.bestbus.utils.BindingAdapter.loadImage
+import com.app.bestbus.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
-
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
     private lateinit var mBinding: ActivityLoginBinding
     private val mViewModel: LoginViewModel by viewModels()
-    private var mTempUri: Uri? = null
+    private var mTempFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,9 +88,7 @@ class LoginActivity : BaseActivity() {
                                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA), 1)
                             }
                         } else {
-                            val file = File.createTempFile("temp_", ".jpg", getExternalFilesDir(null))
-                            mTempUri = FileProvider.getUriForFile(this@LoginActivity, "com.app.bestbus.fileprovider", file)
-                            mTakeForResult.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, mTempUri))
+                            takeImage()
                         }
                     }
                     .setTitle(getString(R.string.choose_one))
@@ -124,6 +118,7 @@ class LoginActivity : BaseActivity() {
             if (requestCode == 0) {
                 mPickForResult.launch("image/*")
             } else if (requestCode == 1) {
+                takeImage()
             }
         }
     }
@@ -134,22 +129,33 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    private fun takeImage() {
+        mTempFile = File.createTempFile("temp_", ".jpg", externalCacheDir)
+        val tempUri = FileProvider.getUriForFile(this@LoginActivity, "com.app.bestbus.fileprovider", mTempFile!!)
+        mTakeForResult.launch(
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION).putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
+        )
+    }
+
     private val mTakeForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            mBinding.imvLogo.setImageURI(mTempUri)
-            val to = File(Environment.getExternalStorageDirectory().absolutePath + "/temp.jpg")
-            File(mTempUri.toString()).copyTo(to, true)
-            editImage(Uri.fromFile(to))
+            MediaScannerConnection.scanFile(this, arrayOf(mTempFile!!.path), null) { _, uri ->
+                editImage(uri)
+            }
         }
     }
 
     private fun editImage(uri: Uri) {
         mViewModel.imageUri = uri
-        val editIntent = Intent(Intent.ACTION_EDIT).setDataAndType(uri, "image/*").setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//        val editIntent = Intent(Intent.ACTION_EDIT).setDataAndType(uri, "image/*").setPackage("com.android.gallery3d")
+        val editIntent = Intent(Intent.ACTION_EDIT)
+            .setDataAndType(uri, "image/*")
+//            .setPackage("com.android.gallery3d")
+            .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         try {
-            mEditForResult.launch(Intent.createChooser(editIntent, getString(R.string.choose_one)))
-        } catch (e: ActivityNotFoundException) {}
+            mEditForResult.launch(editIntent)
+        } catch (e: ActivityNotFoundException) {
+            showToast("Cannot edit photo")
+        }
     }
 
     private val mEditForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -167,6 +173,11 @@ class LoginActivity : BaseActivity() {
             }
         }
         return null
+    }
+
+    override fun onDestroy() {
+        externalCacheDir?.delete()
+        super.onDestroy()
     }
 
     private fun isValid(): Boolean {
