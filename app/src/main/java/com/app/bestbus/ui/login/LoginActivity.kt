@@ -2,7 +2,6 @@ package com.app.bestbus.ui.login
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
@@ -13,7 +12,6 @@ import android.util.Patterns
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.app.bestbus.R
@@ -21,7 +19,7 @@ import com.app.bestbus.base.BaseActivity
 import com.app.bestbus.databinding.ActivityLoginBinding
 import com.app.bestbus.ui.home.HomeActivity
 import com.app.bestbus.utils.BindingAdapter.loadImage
-import com.app.bestbus.utils.showToast
+import com.app.bestbus.utils.isPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -59,38 +57,41 @@ class LoginActivity : BaseActivity() {
                         btnLogin.text = getString(R.string.register)
                         tvSignUp.text = getString(R.string.login)
                         edtName.visibility = View.VISIBLE
+                        edtPhone.visibility = View.VISIBLE
                         mViewModel.isLogin.value = false
                     } else {
                         btnLogin.text = getString(R.string.login)
                         tvSignUp.text = getString(R.string.register)
                         edtName.visibility = View.GONE
+                        edtPhone.visibility = View.GONE
                         mViewModel.isLogin.value = true
                     }
                 }
             }
-
             imvLogo.setOnClickListener {
-                AlertDialog.Builder(this@LoginActivity)
-                    .setPositiveButton(getString(R.string.from_gallery)) { _, _ ->
-                        if (ContextCompat.checkSelfPermission(this@LoginActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
+                if (mViewModel.isUpdate || !mViewModel.isLogin.value!!) {
+                    AlertDialog.Builder(this@LoginActivity)
+                        .setPositiveButton(getString(R.string.from_gallery)) { _, _ ->
+                            if (isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                pickImage()
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
+                                }
                             }
-                        } else {
-                            pickImage()
                         }
-                    }
-                    .setNegativeButton(getString(R.string.take_a_picture)) { _, _ ->
-                        if (ContextCompat.checkSelfPermission(this@LoginActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                requestPermissions(arrayOf(Manifest.permission.CAMERA), 1)
+                        .setNegativeButton(getString(R.string.take_a_picture)) { _, _ ->
+                            if (isPermissionGranted(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                takeImage()
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    requestPermissions(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+                                }
                             }
-                        } else {
-                            takeImage()
                         }
-                    }
-                    .setTitle(getString(R.string.choose_one))
-                    .show()
+                        .setTitle(getString(R.string.choose_one))
+                        .show()
+                }
             }
             btnLogin.setOnClickListener {
                 if (isValid()) {
@@ -150,11 +151,7 @@ class LoginActivity : BaseActivity() {
             .setDataAndType(uri, "image/*")
 //            .setPackage("com.android.gallery3d")
             .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        try {
-            mEditForResult.launch(editIntent)
-        } catch (e: ActivityNotFoundException) {
-            showToast("Cannot edit photo")
-        }
+        mEditForResult.launch(Intent.createChooser(editIntent, "Edit your photo"))
     }
 
     private val mEditForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

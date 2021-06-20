@@ -14,32 +14,42 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("signUp.php")
-    suspend fun signUp(@Field("email") email: String, @Field("password") password: String, @Field("name") name: String): Response<User>
+    suspend fun signUp(
+        @Field("email") email: RequestBody,
+        @Field("password") password: RequestBody,
+        @Field("name") name: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): Response<User>
 
     @Multipart
     @POST("updateProfile.php")
-    suspend fun updateProfile(@Part("userId") userId: RequestBody,
-                      @Part("name") name: RequestBody,
-                      @Part("email") email: RequestBody,
-                      @Part("phone") phone: RequestBody,
-                      @Part("password") password: RequestBody,
-                      @Part image: MultipartBody.Part?): Response<User>
+    suspend fun updateProfile(
+        @Part("userId") userId: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): Response<User>
 
     @GET("getTour.php")
     suspend fun getTour(@Query("from") from: String, @Query("to") to: String): Response<ArrayList<Tour>>
 
     @FormUrlEncoded
     @POST("bookTour.php")
-    suspend fun booking(@Field("userId") userId: Int?,
-                @Field("name") name: String,
-                @Field("email") email: String,
-                @Field("phone") phone: String,
-                @Field("tourId") tourId: Int,
-                @Field("date") date: String?,
-                @Field("seatList") seatSelected: String,
-                @Field("paymentMethod") paymentMethod: String,
-                @Field("paymentInformation") paymentInformation: String,
-                @Field("totalAmount") totalAmount: Float): Response<Ticket>
+    suspend fun booking(
+        @Field("userId") userId: Int?,
+        @Field("name") name: String,
+        @Field("email") email: String,
+        @Field("phone") phone: String,
+        @Field("tourId") tourId: Int,
+        @Field("date") date: String?,
+        @Field("seatList") seatSelected: String,
+        @Field("paymentMethod") paymentMethod: String,
+        @Field("paymentInformation") paymentInformation: String,
+        @Field("totalAmount") totalAmount: Float
+    ): Response<Ticket>
 
     @GET("getDeal.php")
     suspend fun getDeal(): Response<ArrayList<Deal>>

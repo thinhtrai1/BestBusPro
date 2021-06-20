@@ -49,10 +49,10 @@ class LoginViewModel @Inject constructor(
                         val mediaType = "text/plain".toMediaTypeOrNull()
                         loginRepository.updateProfile(
                             user?.id.toString().toRequestBody(mediaType),
-                            name.toRequestBody(mediaType),
                             email.toRequestBody(mediaType),
+                            password.toRequestBody(mediaType),
+                            name.toRequestBody(mediaType),
                             phone.toRequestBody(mediaType),
-                            password.toRequestBody(),
                             imageUri?.getMultipartBody("image")
                         )
                     }
@@ -64,7 +64,14 @@ class LoginViewModel @Inject constructor(
                 }
                 else -> {
                     withContext(Dispatchers.IO) {
-                        loginRepository.signUp(email, password, name)
+                        val mediaType = "text/plain".toMediaTypeOrNull()
+                        loginRepository.signUp(
+                            email.toRequestBody(mediaType),
+                            password.toRequestBody(mediaType),
+                            name.toRequestBody(mediaType),
+                            phone.toRequestBody(mediaType),
+                            imageUri?.getMultipartBody("image")
+                        )
                     }
                 }
             }.let {
