@@ -20,9 +20,9 @@ interface ApiService {
     @POST("updateProfile.php")
     suspend fun updateProfile(@Part("userId") userId: RequestBody,
                       @Part("name") name: RequestBody,
-                      @Part("email") contact_no: RequestBody,
-                      @Part("phone") password: RequestBody,
-                      @Part("password") latitude: RequestBody,
+                      @Part("email") email: RequestBody,
+                      @Part("phone") phone: RequestBody,
+                      @Part("password") password: RequestBody,
                       @Part image: MultipartBody.Part?): Response<User>
 
     @GET("getTour.php")

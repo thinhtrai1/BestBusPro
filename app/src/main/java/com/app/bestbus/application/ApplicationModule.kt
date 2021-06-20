@@ -7,6 +7,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -21,8 +23,17 @@ class ApplicationModule {
         return Retrofit.Builder()
             .baseUrl(Constant.BASE_URL + "api/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient().newBuilder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build())
             .build()
             .create(ApiService::class.java)
+            /*
+            val body = chain.request().body as okhttp3.FormBody
+            val output = HashMap<String, String>()
+            for (i in body.encodedNames.indices) {
+                output[body.encodedName(i)] = body.encodedValue(i)
+            }
+            com.google.gson.Gson().toJson(output)
+             */
     }
 
     @Provides

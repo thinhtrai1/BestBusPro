@@ -18,11 +18,11 @@ class LoginRepository  @Inject constructor(private val apiService: ApiService) {
     suspend fun updateProfile(
         userId: RequestBody,
         name: RequestBody,
-        contact_no: RequestBody,
+        email: RequestBody,
+        phone: RequestBody,
         password: RequestBody,
-        latitude: RequestBody,
         image: MultipartBody.Part?
     ) = ApiResult.getResult {
-        apiService.updateProfile(userId, name, contact_no, password, latitude, image)
+        apiService.updateProfile(userId, name, email, phone, password, image)
     }
 }

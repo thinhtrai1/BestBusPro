@@ -1,25 +1,25 @@
 package com.app.bestbus.ui.login
 
+import android.content.ContentResolver
 import android.net.Uri
+import android.provider.OpenableColumns
+import androidx.core.database.getIntOrNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.app.bestbus.application.Application
 import com.app.bestbus.base.BaseViewModel
 import com.app.bestbus.data.login.LoginRepository
 import com.app.bestbus.models.User
-import com.app.bestbus.utils.ApiResult
-import com.app.bestbus.utils.Constant
-import com.app.bestbus.utils.SharedPreferencesHelper
-import com.app.bestbus.utils.showErrorToast
+import com.app.bestbus.utils.*
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.File
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,25 +40,20 @@ class LoginViewModel @Inject constructor(
     var imageUri: Uri? = null
     val loading = MutableLiveData(false)
 
-    fun login(file: File?, onSuccess: () -> Unit) {
+    fun login(onSuccess: () -> Unit) {
         loading.value = true
         viewModelScope.launch {
             when {
                 isUpdate -> {
                     withContext(Dispatchers.IO) {
-                        var imageFile: MultipartBody.Part? = null
-                        file?.let {
-                            val avatarRequest = RequestBody.create(MediaType.parse("image/*"), it)
-                            imageFile = MultipartBody.Part.createFormData("image", it.name, avatarRequest)
-                        }
-                        val mediaType = MediaType.parse("text/plain")
+                        val mediaType = "text/plain".toMediaTypeOrNull()
                         loginRepository.updateProfile(
-                            RequestBody.create(mediaType, user?.id.toString()),
-                            RequestBody.create(mediaType, name),
-                            RequestBody.create(mediaType, email),
-                            RequestBody.create(mediaType, phone),
-                            RequestBody.create(mediaType, password),
-                            imageFile
+                            user?.id.toString().toRequestBody(mediaType),
+                            name.toRequestBody(mediaType),
+                            email.toRequestBody(mediaType),
+                            phone.toRequestBody(mediaType),
+                            password.toRequestBody(),
+                            imageUri?.getMultipartBody("image")
                         )
                     }
                 }
@@ -85,6 +80,25 @@ class LoginViewModel @Inject constructor(
                     showErrorToast(it)
                 }
             }
+        }
+    }
+
+    private fun Uri.getMultipartBody(partKey: String): MultipartBody.Part? {
+        val contentResolver = Application.instance.contentResolver
+        var length = contentResolver.openFileDescriptor(this, "r")?.use { it.statSize.toInt() } ?: -1
+        if (length == -1 && scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+            contentResolver.query(this, arrayOf(OpenableColumns.SIZE), null, null, null)?.use {
+                if (it.moveToFirst()) {
+                    length = it.getIntOrNull(it.getColumnIndex(OpenableColumns.SIZE)) ?: -1
+                }
+            }
+        }
+        if (length == -1) return null
+        val type = contentResolver.getType(this)?.toMediaTypeOrNull() ?: return null
+        return contentResolver.openInputStream(this)?.use { inputStream ->
+            MultipartBody.Part.createFormData(
+                partKey, "fileName.".plus(type.subtype), inputStream.readBytes().toRequestBody(type, 0, length)
+            )
         }
     }
 }

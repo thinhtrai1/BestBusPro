@@ -1,7 +1,6 @@
 package com.app.bestbus.ui.login
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -10,7 +9,6 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Patterns
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -76,16 +74,16 @@ class LoginActivity : BaseActivity() {
                     .setPositiveButton(getString(R.string.from_gallery)) { _, _ ->
                         if (ContextCompat.checkSelfPermission(this@LoginActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA), 0)
+                                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
                             }
                         } else {
-                            mPickForResult.launch("image/*")
+                            pickImage()
                         }
                     }
                     .setNegativeButton(getString(R.string.take_a_picture)) { _, _ ->
                         if (ContextCompat.checkSelfPermission(this@LoginActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA), 1)
+                                requestPermissions(arrayOf(Manifest.permission.CAMERA), 1)
                             }
                         } else {
                             takeImage()
@@ -95,14 +93,13 @@ class LoginActivity : BaseActivity() {
                     .show()
             }
             btnLogin.setOnClickListener {
-                if (!isValid()) {
-                    return@setOnClickListener
-                }
-                mViewModel.login(mViewModel.imageUri?.getRealPath()) {
-                    startActivity(
-                        Intent(this@LoginActivity, HomeActivity::class.java)
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    )
+                if (isValid()) {
+                    mViewModel.login {
+                        startActivity(
+                            Intent(this@LoginActivity, HomeActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        )
+                    }
                 }
             }
         }
@@ -116,11 +113,15 @@ class LoginActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == 0) {
-                mPickForResult.launch("image/*")
+                pickImage()
             } else if (requestCode == 1) {
                 takeImage()
             }
         }
+    }
+
+    private fun pickImage() {
+        mPickForResult.launch("image/*")
     }
 
     private val mPickForResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
@@ -132,13 +133,11 @@ class LoginActivity : BaseActivity() {
     private fun takeImage() {
         mTempFile = File.createTempFile("temp_", ".jpg", externalCacheDir)
         val tempUri = FileProvider.getUriForFile(this@LoginActivity, "com.app.bestbus.fileprovider", mTempFile!!)
-        mTakeForResult.launch(
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION).putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-        )
+        mTakeForResult.launch(tempUri)
     }
 
-    private val mTakeForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+    private val mTakeForResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+        if (isSuccess) {
             MediaScannerConnection.scanFile(this, arrayOf(mTempFile!!.path), null) { _, uri ->
                 editImage(uri)
             }
@@ -163,16 +162,6 @@ class LoginActivity : BaseActivity() {
             mViewModel.imageUri = it
         }
         mBinding.imvLogo.setImageURI(mViewModel.imageUri)
-    }
-
-    private fun Uri?.getRealPath(): File? {
-        if (this != null) {
-            contentResolver.query(this, arrayOf("_data"), null, null, null)?.apply {
-                moveToFirst()
-                return File(getString(getColumnIndexOrThrow("_data")))
-            }
-        }
-        return null
     }
 
     override fun onDestroy() {
