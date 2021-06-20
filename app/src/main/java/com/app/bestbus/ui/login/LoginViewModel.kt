@@ -40,6 +40,10 @@ class LoginViewModel @Inject constructor(
     var imageUri: Uri? = null
     val loading = MutableLiveData(false)
 
+    fun loginRegister() {
+        isLogin.value = !isLogin.value!!
+    }
+
     fun login(onSuccess: () -> Unit) {
         loading.value = true
         viewModelScope.launch {

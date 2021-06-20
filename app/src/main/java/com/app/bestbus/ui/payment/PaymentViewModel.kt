@@ -1,5 +1,6 @@
 package com.app.bestbus.ui.payment
 
+import android.content.Intent
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -10,10 +11,8 @@ import com.app.bestbus.data.payment.PaymentRepository
 import com.app.bestbus.models.Ticket
 import com.app.bestbus.models.Tour
 import com.app.bestbus.models.User
-import com.app.bestbus.utils.ApiResult
-import com.app.bestbus.utils.Constant
-import com.app.bestbus.utils.SharedPreferencesHelper
-import com.app.bestbus.utils.showErrorToast
+import com.app.bestbus.ui.home.HomeActivity
+import com.app.bestbus.utils.*
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -88,5 +87,20 @@ class PaymentViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun onHome(v: View) {
+        v.context.apply {
+            startActivity(
+                Intent(this, HomeActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        }
+    }
+
+    fun newSelect(viewSelect: View) {
+        viewSelecting?.isSelected = false
+        viewSelecting = viewSelect
+        viewSelecting!!.isSelected = true
     }
 }

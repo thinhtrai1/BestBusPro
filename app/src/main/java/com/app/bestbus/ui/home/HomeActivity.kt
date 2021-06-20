@@ -14,7 +14,6 @@ import android.util.Pair
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -27,6 +26,7 @@ import com.app.bestbus.ui.login.LoginActivity
 import com.app.bestbus.ui.scanTicket.ScanTicketActivity
 import com.app.bestbus.ui.searchTour.SearchTourActivity
 import com.app.bestbus.utils.Constant
+import com.app.bestbus.utils.isPermissionGranted
 import com.app.bestbus.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -90,11 +90,9 @@ class HomeActivity : BaseActivity() {
         }
 
         mBinding.viewYourTicket.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
-                    return@setOnClickListener
-                }
+            if (!isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
+                return@setOnClickListener
             }
             val files = File(Constant.TICKET_FOLDER).listFiles()
             if (files.isNullOrEmpty()) {
@@ -139,12 +137,10 @@ class HomeActivity : BaseActivity() {
         }
 
         mBinding.viewScanTicket.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(arrayOf(Manifest.permission.CAMERA), 1)
-                }
-            } else {
+            if (isPermissionGranted(Manifest.permission.CAMERA)) {
                 startActivity(Intent(this, ScanTicketActivity::class.java))
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), 1)
             }
             mBinding.viewContainer.closeDrawer(mBinding.viewMenuLeft)
         }

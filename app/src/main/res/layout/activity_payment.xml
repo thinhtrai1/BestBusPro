@@ -29,7 +29,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imvHome"
+                android:onClick="@{(v) -> viewModel.onHome(v)}"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/margin_10"
@@ -101,18 +101,18 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
                             android:background="@android:color/transparent"
-                            android:text="@{viewModel.name}"
-                            app:onTextChanged="@{(s) -> viewModel.setName(s)}"
                             android:hint="@string/your_name"
                             android:inputType="textCapSentences"
                             android:padding="0dp"
+                            android:text="@{viewModel.name}"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="@id/ic1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/ic1"
-                            app:layout_constraintTop_toTopOf="@id/ic1" />
+                            app:layout_constraintTop_toTopOf="@id/ic1"
+                            app:onTextChanged="@{(s) -> viewModel.setName(s)}" />
 
                         <View
                             android:layout_width="0dp"
@@ -138,18 +138,18 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
                             android:background="@android:color/transparent"
-                            android:text="@{viewModel.email}"
                             android:hint="@string/email"
                             android:inputType="textEmailAddress"
-                            app:onTextChanged="@{(s) -> viewModel.setEmail(s)}"
                             android:padding="0dp"
+                            android:text="@{viewModel.email}"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="@id/ic2"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/ic2"
-                            app:layout_constraintTop_toTopOf="@id/ic2" />
+                            app:layout_constraintTop_toTopOf="@id/ic2"
+                            app:onTextChanged="@{(s) -> viewModel.setEmail(s)}" />
 
                         <View
                             android:layout_width="0dp"
@@ -175,18 +175,18 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
                             android:background="@android:color/transparent"
-                            android:text="@{viewModel.phone}"
                             android:hint="@string/phone"
                             android:inputType="phone"
                             android:padding="0dp"
-                            app:onTextChanged="@{(s) -> viewModel.setPhone(s)}"
+                            android:text="@{viewModel.phone}"
                             android:textColor="@color/gray_dark"
                             android:textSize="@dimen/text_normal"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="@id/ic3"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/ic3"
-                            app:layout_constraintTop_toTopOf="@id/ic3" />
+                            app:layout_constraintTop_toTopOf="@id/ic3"
+                            app:onTextChanged="@{(s) -> viewModel.setPhone(s)}" />
 
                         <View
                             android:layout_width="0dp"
@@ -232,8 +232,6 @@
                             android:background="@drawable/bg_edt_input_payment"
                             android:focusable="false"
                             android:gravity="bottom"
-                            android:text="@{viewModel.creditCard}"
-                            app:onTextChanged="@{(s) -> viewModel.setCreditCard(s)}"
                             android:hint="@string/please_select_your_card"
                             android:inputType="text"
                             android:paddingHorizontal="@dimen/margin_10"
@@ -244,7 +242,8 @@
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/spm" />
+                            app:layout_constraintTop_toBottomOf="@id/spm"
+                            app:onTextChanged="@{(s) -> viewModel.setCreditCard(s)}" />
 
                         <TextView
                             android:id="@+id/tvCreditCard"
@@ -254,7 +253,7 @@
                             android:background="@drawable/bg_progress_dialog"
                             android:elevation="@dimen/margin_2.5"
                             android:paddingHorizontal="@dimen/margin_10"
-                            android:paddingVertical="@dimen/margin_5"
+                            android:paddingVertical="@dimen/margin_2.5"
                             android:text="@string/debit_credit_card"
                             android:textColor="@color/color_selecting"
                             android:textSize="@dimen/text_normal"
@@ -285,8 +284,6 @@
                             android:background="@drawable/bg_edt_input_payment"
                             android:focusable="false"
                             android:gravity="bottom"
-                            android:text="@{viewModel.netBanking}"
-                            app:onTextChanged="@{(s) -> viewModel.setNetBanking(s)}"
                             android:hint="@string/pay_by_your_bank_account"
                             android:inputType="text"
                             android:paddingHorizontal="@dimen/margin_10"
@@ -297,7 +294,8 @@
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/edtCreditCard" />
+                            app:layout_constraintTop_toBottomOf="@id/edtCreditCard"
+                            app:onTextChanged="@{(s) -> viewModel.setNetBanking(s)}" />
 
                         <TextView
                             android:id="@+id/tvNetBanking"
@@ -307,7 +305,7 @@
                             android:background="@drawable/bg_progress_dialog"
                             android:elevation="@dimen/margin_2.5"
                             android:paddingHorizontal="@dimen/margin_10"
-                            android:paddingVertical="@dimen/margin_5"
+                            android:paddingVertical="@dimen/margin_2.5"
                             android:text="@string/net_banking"
                             android:textColor="@color/color_selecting"
                             android:textSize="@dimen/text_normal"
@@ -337,8 +335,6 @@
                             android:layout_marginTop="@dimen/margin_20"
                             android:background="@drawable/bg_edt_input_payment"
                             android:ellipsize="end"
-                            android:text="@{viewModel.codeShipping}"
-                            app:onTextChanged="@{(s) -> viewModel.setCodeShipping(s)}"
                             android:gravity="bottom"
                             android:hint="@string/tell_us_your_address"
                             android:inputType="text"
@@ -350,7 +346,8 @@
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/edtNetBanking" />
+                            app:layout_constraintTop_toBottomOf="@id/edtNetBanking"
+                            app:onTextChanged="@{(s) -> viewModel.setCodeShipping(s)}" />
 
                         <TextView
                             android:id="@+id/tvCodeShipping"
@@ -360,7 +357,7 @@
                             android:background="@drawable/bg_progress_dialog"
                             android:elevation="@dimen/margin_2.5"
                             android:paddingHorizontal="@dimen/margin_10"
-                            android:paddingVertical="@dimen/margin_5"
+                            android:paddingVertical="@dimen/margin_2.5"
                             android:text="@string/code_shipping"
                             android:textColor="@color/color_selecting"
                             android:textSize="@dimen/text_normal"
@@ -409,7 +406,7 @@
                             android:background="@drawable/bg_progress_dialog"
                             android:elevation="@dimen/margin_2.5"
                             android:paddingHorizontal="@dimen/margin_10"
-                            android:paddingVertical="@dimen/margin_5"
+                            android:paddingVertical="@dimen/margin_2.5"
                             android:text="@string/payment_as_sus_station"
                             android:textColor="@color/color_selecting"
                             android:textSize="@dimen/text_normal"

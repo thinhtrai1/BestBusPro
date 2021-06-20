@@ -44,7 +44,6 @@
                     android:layout_marginStart="@dimen/margin_10"
                     android:hint="@string/from"
                     android:inputType="text"
-                    android:text="@{viewModel.from}"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_large"
                     android:textStyle="bold"
@@ -70,7 +69,6 @@
                     android:layout_marginStart="@dimen/margin_10"
                     android:hint="@string/to"
                     android:inputType="text"
-                    android:text="@{viewModel.to}"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_large"
                     android:textStyle="bold"
@@ -90,11 +88,11 @@
                     android:src="@drawable/ic_app" />
 
                 <EditText
-                    android:id="@+id/edtDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_10"
                     android:focusable="false"
+                    android:onClick="@{(v) -> viewModel.onDate(v)}"
                     android:text="@{viewModel.date}"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_large"
@@ -107,13 +105,13 @@
                 android:layout_weight="2">
 
                 <Button
-                    android:id="@+id/btnSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/bg_btn_login"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:paddingHorizontal="@dimen/home_avatar_size"
+                    android:onClick="@{(v) -> viewModel.onSearch(v)}"
                     android:paddingVertical="@dimen/margin_10"
                     android:text="@string/search"
                     android:textColor="@color/color_white_green"

@@ -11,17 +11,18 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.app.bestbus.R
 import com.app.bestbus.base.BaseActivity
 import com.app.bestbus.databinding.ActivityPaymentBinding
 import com.app.bestbus.databinding.DialogBookingSuccessBinding
 import com.app.bestbus.ui.home.HomeActivity
-import com.app.bestbus.utils.*
+import com.app.bestbus.utils.Constant
+import com.app.bestbus.utils.Util
+import com.app.bestbus.utils.isPermissionGranted
+import com.app.bestbus.utils.showToast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
@@ -62,12 +63,6 @@ class PaymentActivity : BaseActivity() {
                     edtAtBusStation.isSelected = true
                 }
             }
-            imvHome.setOnClickListener {
-                startActivity(
-                    Intent(this@PaymentActivity, HomeActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                )
-            }
             edtCreditCard.setOnClickListener {
                 AlertDialog
                     .Builder(this@PaymentActivity)
@@ -84,11 +79,11 @@ class PaymentActivity : BaseActivity() {
             }
             edtCodeShipping.setOnFocusChangeListener { _, b ->
                 if (b) {
-                    newSelect(edtCodeShipping)
+                    mViewModel.newSelect(edtCodeShipping)
                 }
             }
             edtAtBusStation.setOnClickListener {
-                newSelect(edtAtBusStation)
+                mViewModel.newSelect(edtAtBusStation)
                 edtCodeShipping.clearFocus()
             }
             btnConfirm.setOnClickListener {
@@ -110,21 +105,13 @@ class PaymentActivity : BaseActivity() {
         }
     }
 
-    private fun newSelect(viewSelect: View) {
-        mViewModel.viewSelecting?.isSelected = false
-        mViewModel.viewSelecting = viewSelect
-        mViewModel.viewSelecting!!.isSelected = true
-    }
-
     private fun booking() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
-                return
+        if (isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            mViewModel.booking {
+                showDialogSuccess(true)
             }
-        }
-        mViewModel.booking {
-            showDialogSuccess(true)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
         }
     }
     

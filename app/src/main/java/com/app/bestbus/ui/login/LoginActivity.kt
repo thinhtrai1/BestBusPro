@@ -52,19 +52,17 @@ class LoginActivity : BaseActivity() {
                 edtPassword.setText(mViewModel.password)
                 edtConfirmPassword.setText(mViewModel.confirmPassword)
             } else {
-                tvSignUp.setOnClickListener {
-                    if (mViewModel.isLogin.value!!) {
-                        btnLogin.text = getString(R.string.register)
-                        tvSignUp.text = getString(R.string.login)
-                        edtName.visibility = View.VISIBLE
-                        edtPhone.visibility = View.VISIBLE
-                        mViewModel.isLogin.value = false
-                    } else {
+                mViewModel.isLogin.observe {
+                    if (it) {
                         btnLogin.text = getString(R.string.login)
                         tvSignUp.text = getString(R.string.register)
                         edtName.visibility = View.GONE
                         edtPhone.visibility = View.GONE
-                        mViewModel.isLogin.value = true
+                    } else {
+                        btnLogin.text = getString(R.string.register)
+                        tvSignUp.text = getString(R.string.login)
+                        edtName.visibility = View.VISIBLE
+                        edtPhone.visibility = View.VISIBLE
                     }
                 }
             }
@@ -74,10 +72,8 @@ class LoginActivity : BaseActivity() {
                         .setPositiveButton(getString(R.string.from_gallery)) { _, _ ->
                             if (isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                 pickImage()
-                            } else {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
-                                }
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
                             }
                         }
                         .setNegativeButton(getString(R.string.take_a_picture)) { _, _ ->
@@ -181,13 +177,8 @@ class LoginActivity : BaseActivity() {
                 edtPassword.error = getString(R.string.tv_please_enter_password)
                 b = false
             }
-            if (mViewModel.isUpdate) {
-                if (mViewModel.password != mViewModel.confirmPassword) {
-                    edtConfirmPassword.error = getString(R.string.tv_invalid_confirm_password)
-                    b = false
-                }
-            } else if (!mViewModel.isLogin.value!! && mViewModel.name.isEmpty()) {
-                edtName.error = getString(R.string.tv_please_enter_your_name)
+            if (mViewModel.isUpdate && mViewModel.password != mViewModel.confirmPassword) {
+                edtConfirmPassword.error = getString(R.string.tv_invalid_confirm_password)
                 b = false
             }
             return b
