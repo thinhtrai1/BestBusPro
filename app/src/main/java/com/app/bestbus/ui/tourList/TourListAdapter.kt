@@ -12,7 +12,7 @@ import com.app.bestbus.utils.Util
 import com.app.bestbus.utils.getString
 import com.google.gson.Gson
 
-class TourListAdapter(private val date: String?): RecyclerView.Adapter<TourListAdapter.ViewHolder>() {
+class TourListAdapter(private val date: String): RecyclerView.Adapter<TourListAdapter.ViewHolder>() {
     val tours = ArrayList<Tour>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

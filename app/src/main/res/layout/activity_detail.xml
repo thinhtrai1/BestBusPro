@@ -4,7 +4,11 @@
     <data>
 
         <variable
-            name="it"
+            name="viewModel"
+            type="com.app.bestbus.ui.detail.DetailViewModel" />
+
+        <variable
+            name="tour"
             type="com.app.bestbus.models.Tour" />
 
         <import type="com.app.bestbus.utils.Util" />
@@ -23,12 +27,12 @@
             android:background="@drawable/bg_home_header">
 
             <ImageView
-                android:id="@+id/imvHome"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/margin_10"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/app_name"
+                android:onClick="@{(v) -> viewModel.home(v)}"
                 android:src="@drawable/ic_app" />
 
             <TextView
@@ -71,7 +75,7 @@
                         android:id="@+id/tvFrom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{it.fromCity}"
+                        android:text="@{tour.fromCity}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_normal"
                         android:textStyle="bold"
@@ -82,7 +86,7 @@
                         android:id="@+id/tvTo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{it.toCity}"
+                        android:text="@{tour.toCity}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_normal"
                         android:textStyle="bold"
@@ -120,7 +124,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/margin_10"
-                        android:text="@{it.startTime}"
+                        android:text="@{tour.startTime}"
                         android:textColor="@color/gray_dark"
                         android:textSize="@dimen/text_normal"
                         android:textStyle="bold"
@@ -130,7 +134,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/hours(Util.formatFloat(it.time))}"
+                        android:text="@{@string/hours(Util.formatFloat(tour.time))}"
                         android:textColor="@color/gray_dark"
                         android:textSize="@dimen/text_normal"
                         app:layout_constraintBottom_toBottomOf="@+id/tvStartTime"
@@ -140,7 +144,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{Util.getEndTime(it.startTime, it.time)}"
+                        android:text="@{Util.getEndTime(tour.startTime, tour.time)}"
                         android:textColor="@color/gray_dark"
                         android:textSize="@dimen/text_normal"
                         android:textStyle="bold"
@@ -152,7 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/margin_10"
-                        android:text="@{it.date}"
+                        android:text="@{tour.date}"
                         android:textColor="@color/gray_dark"
                         android:textSize="@dimen/text_normal"
                         android:textStyle="bold"
@@ -162,7 +166,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{Util.getEndDate(it.date, it.startTime, it.time)}"
+                        android:text="@{Util.getEndDate(tour.date, tour.startTime, tour.time)}"
                         android:textColor="@color/gray_dark"
                         android:textSize="@dimen/text_normal"
                         android:textStyle="bold"
@@ -196,6 +200,7 @@
                         android:layout_height="0dp"
                         android:layout_marginStart="@dimen/margin_5"
                         android:layout_marginTop="@dimen/margin_15"
+                        app:adapter="@{viewModel.adapter}"
                         app:layout_constraintBottom_toTopOf="@id/l"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHeight_default="wrap"
@@ -215,7 +220,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_5"
-                        android:text="@{it.tourName}"
+                        android:text="@{tour.tourName}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_18"
                         android:textStyle="bold"
@@ -248,7 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_15"
-                    android:text="@{@string/additional_vat(Util.formatFloat(it.price * it.seatSelected.size * it.vat), (int) (it.vat * 100))}"
+                    android:text="@{@string/additional_vat(Util.formatFloat(tour.price * tour.seatSelected.size * tour.vat), (int) (tour.vat * 100))}"
                     android:textColor="@color/gray_dark" />
 
                 <TextView
@@ -271,7 +276,7 @@
                     android:layout_toStartOf="@id/btnBook"
                     android:fontFamily="serif"
                     android:gravity="center_vertical"
-                    android:text="@{@string/usd(Util.formatFloat(it.amount))}"
+                    android:text="@{@string/usd(Util.formatFloat(tour.amount))}"
                     android:textColor="@color/color_selecting"
                     android:textStyle="bold"
                     app:autoSizeMaxTextSize="30dp"
@@ -290,6 +295,7 @@
                     android:layout_marginBottom="@dimen/margin_15"
                     android:background="@drawable/bg_btn_login"
                     android:fontFamily="sans-serif-condensed-medium"
+                    android:onClick="@{(v) -> viewModel.book(v)}"
                     android:paddingHorizontal="@dimen/margin_20"
                     android:paddingVertical="@dimen/margin_10"
                     android:text="@string/book_now"

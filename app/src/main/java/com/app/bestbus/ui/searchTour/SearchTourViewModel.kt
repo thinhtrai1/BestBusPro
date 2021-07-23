@@ -13,10 +13,10 @@ class SearchTourViewModel : BaseViewModel() {
     private val mCalendar: Calendar = Calendar.getInstance()
     var from = ""
     var to = ""
-    var date = MutableLiveData(Constant.dateFormat.format(Calendar.getInstance().time))
+    val date = MutableLiveData(Constant.dateFormat.format(mCalendar.time))
 
     fun onDate(v: View) {
-        DatePickerDialog(v.context, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        DatePickerDialog(v.context, { _, year, month, dayOfMonth ->
             mCalendar.set(year, month, dayOfMonth)
             date.value = Constant.dateFormat.format(mCalendar.time)
         }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH)).show()

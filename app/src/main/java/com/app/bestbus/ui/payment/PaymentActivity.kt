@@ -3,6 +3,7 @@ package com.app.bestbus.ui.payment
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -10,16 +11,17 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.app.bestbus.R
 import com.app.bestbus.base.BaseActivity
 import com.app.bestbus.databinding.ActivityPaymentBinding
 import com.app.bestbus.databinding.DialogBookingSuccessBinding
 import com.app.bestbus.ui.home.HomeActivity
-import com.app.bestbus.utils.Constant
 import com.app.bestbus.utils.Util
 import com.app.bestbus.utils.isPermissionGranted
 import com.app.bestbus.utils.showToast
@@ -27,8 +29,8 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.FileOutputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PaymentActivity : BaseActivity() {
@@ -106,7 +108,7 @@ class PaymentActivity : BaseActivity() {
     }
 
     private fun booking() {
-        if (isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q || isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             mViewModel.booking {
                 showDialogSuccess(true)
             }
@@ -165,41 +167,60 @@ class PaymentActivity : BaseActivity() {
                 }
                 if (isNew) {
                     binding.layoutTicket.post {
-                        Thread(Runnable {
-                            val bitmap = Bitmap.createBitmap(binding.layoutTicket.width, binding.layoutTicket.height, Bitmap.Config.ARGB_8888)
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            val width = binding.layoutTicket.width
+                            val height = binding.layoutTicket.height
+                            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
                             binding.layoutTicket.draw(Canvas(bitmap))
-                            val path = File(Constant.TICKET_FOLDER)
-                            if (!path.exists()) {
-                                path.mkdirs()
+//                            val path = File(Constant.TICKET_FOLDER)
+//                            if (!path.exists()) {
+//                                path.mkdirs()
+//                            }
+//                            val imageFile = File(path, Util.getTicketFileName(it.tourData.date, it.tourData.startTime, it.id))
+//                            FileOutputStream(imageFile).use { outputStream ->
+//                                bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
+//                            }
+
+                            val imageUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                            } else {
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                             }
-                            val imageFile = File(path, Util.getTicketFileName(it.tourData.date, it.tourData.startTime, it.id))
-                            val outputStream = FileOutputStream(imageFile)
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
-                            outputStream.flush()
-                            outputStream.close()
-                        }).start()
+                            val contentValues = ContentValues().apply {
+                                put(MediaStore.Images.Media.DISPLAY_NAME, Util.getTicketFileName(it.tourData.date, it.tourData.startTime, it.id))
+                                put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+                                put(MediaStore.Images.Media.WIDTH, width)
+                                put(MediaStore.Images.Media.HEIGHT, height)
+                            }
+                            contentResolver.insert(imageUri, contentValues)?.let { uri ->
+                                contentResolver.openOutputStream(uri).use { outputStream ->
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun generateQRCode(data: String?, size: Int = 256): Bitmap {
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-        try {
-//            val hints: MutableMap<EncodeHintType?, Any?> = EnumMap(EncodeHintType::class.java)
-//            hints[EncodeHintType.MARGIN] = 0
-//            val bitMatrix = MultiFormatWriter().encode(code, BarcodeFormat.QR_CODE, size, size, hints)
+    private fun generateQRCode(data: String?, size: Int = 256): Bitmap? {
+        return try {
             val bitMatrix = QRCodeWriter().encode(data, BarcodeFormat.QR_CODE, size, size)
-            for (x in 0 until size) {
-                for (y in 0 until size) {
-                    bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.WHITE else Color.TRANSPARENT)
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            val pixels = IntArray(width * height)
+            for (x in 0 until width) {
+                for (y in 0 until height) {
+                    pixels[width * y + x] = if (bitMatrix.get(x, y)) Color.WHITE else Color.TRANSPARENT
                 }
             }
+            Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888).apply {
+                setPixels(pixels, 0, width, 0, 0, width, height)
+            }
         } catch (e: WriterException) {
-            e.printStackTrace()
+            null
         }
-        return bitmap
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

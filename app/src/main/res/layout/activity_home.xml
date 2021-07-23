@@ -262,7 +262,7 @@
                         android:id="@+id/iconBookTour"
                         android:layout_width="@dimen/home_menu_icon_width"
                         android:layout_height="@dimen/home_menu_icon_size"
-                        android:contentDescription="@string/scan_ticket"
+                        android:contentDescription="@string/book_tour"
                         android:src="@drawable/ic_app" />
 
                     <TextView
@@ -288,7 +288,7 @@
                         android:id="@+id/iconLogin"
                         android:layout_width="@dimen/home_menu_icon_width"
                         android:layout_height="@dimen/home_menu_icon_size"
-                        android:contentDescription="@string/scan_ticket"
+                        android:contentDescription="@string/login_register"
                         android:src="@drawable/ic_app" />
 
                     <TextView
@@ -302,30 +302,30 @@
                         android:textStyle="bold" />
                 </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/viewYourTicket"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:isVisible="@{viewModel.user.isAdmin() != 1}">
+<!--                <FrameLayout-->
+<!--                    android:id="@+id/viewYourTicket"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/margin_15"-->
+<!--                    android:foreground="?android:attr/selectableItemBackground"-->
+<!--                    app:isVisible="@{viewModel.user.isAdmin() != 1}">-->
 
-                    <ImageView
-                        android:layout_width="@dimen/home_menu_icon_width"
-                        android:layout_height="@dimen/home_menu_icon_size"
-                        android:contentDescription="@string/scan_ticket"
-                        android:src="@drawable/ic_app" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="@dimen/home_menu_icon_width"-->
+<!--                        android:layout_height="@dimen/home_menu_icon_size"-->
+<!--                        android:contentDescription="@string/your_tickets"-->
+<!--                        android:src="@drawable/ic_app" />-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/home_menu_icon_width"
-                        android:text="@string/your_tickets"
-                        android:textColor="#000"
-                        android:textSize="@dimen/text_large"
-                        android:textStyle="bold" />
-                </FrameLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_marginStart="@dimen/home_menu_icon_width"-->
+<!--                        android:text="@string/your_tickets"-->
+<!--                        android:textColor="#000"-->
+<!--                        android:textSize="@dimen/text_large"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </FrameLayout>-->
 
                 <FrameLayout
                     android:id="@+id/viewUpdateProfile"
@@ -338,7 +338,7 @@
                     <ImageView
                         android:layout_width="@dimen/home_menu_icon_width"
                         android:layout_height="@dimen/home_menu_icon_size"
-                        android:contentDescription="@string/scan_ticket"
+                        android:contentDescription="@string/update_profile"
                         android:src="@drawable/ic_app" />
 
                     <TextView
@@ -363,7 +363,7 @@
                     <ImageView
                         android:layout_width="@dimen/home_menu_icon_width"
                         android:layout_height="@dimen/home_menu_icon_size"
-                        android:contentDescription="@string/scan_ticket"
+                        android:contentDescription="@string/add_tour_underline"
                         android:src="@drawable/ic_app" />
 
                     <TextView
@@ -388,7 +388,7 @@
                     <ImageView
                         android:layout_width="@dimen/home_menu_icon_width"
                         android:layout_height="@dimen/home_menu_icon_size"
-                        android:contentDescription="@string/scan_ticket"
+                        android:contentDescription="@string/logout"
                         android:src="@drawable/ic_app" />
 
                     <TextView

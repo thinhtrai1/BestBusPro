@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray">
+<layout>
 
-    <FrameLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btnScanMore">
+        android:background="@color/gray">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_height="match_parent"
+            android:layout_above="@id/btnScanMore"
+            android:fillViewport="true">
 
             <TextView
                 android:id="@+id/tvTicket"
@@ -24,34 +22,34 @@
                 android:textSize="@dimen/text_18"
                 android:textStyle="bold" />
         </ScrollView>
-    </FrameLayout>
 
-    <me.dm7.barcodescanner.zxing.ZXingScannerView
-        android:id="@+id/scannerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <com.journeyapps.barcodescanner.DecoratedBarcodeView
+            android:id="@+id/scannerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
 
-    <Button
-        android:id="@+id/btnScanMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/margin_20"
-        android:background="@drawable/bg_btn_login"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:paddingHorizontal="@dimen/home_avatar_size"
-        android:paddingVertical="@dimen/margin_10"
-        android:text="@android:string/cancel"
-        android:textAllCaps="true"
-        android:textColor="@color/color_white_green"
-        android:textSize="@dimen/text_18"
-        android:textStyle="bold" />
-</RelativeLayout>
+        <Button
+            android:id="@+id/btnScanMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/margin_20"
+            android:background="@drawable/bg_btn_login"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:paddingHorizontal="@dimen/home_avatar_size"
+            android:paddingVertical="@dimen/margin_10"
+            android:text="@android:string/cancel"
+            android:textAllCaps="true"
+            android:textColor="@color/color_white_green"
+            android:textSize="@dimen/text_18"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</layout>
